@@ -5,17 +5,17 @@ import numpy as np
 from data.base_dataset import BaseDataset
 import os
 
-class FlirDataset(BaseDataset):
+class VisDroneDataset(BaseDataset):
     def initialize(self, opt, test=False):
-        print('ThermalDataset')
+        print('VisDroneDataset')
         self.opt = opt
         self.root = opt.dataroot
         self.dir_AB = os.path.join(opt.dataroot, opt.phase)
         if test:
-            self.A_data = np.load(os.path.join(self.root, "grayscale_test_data.npy"), allow_pickle=True)
-            self.B_data = np.load(os.path.join(self.root, "thermal_test_data.npy"), allow_pickle=True)
+            self.A_data = np.load(os.path.join(self.root, "rgb_testing_data.npy"), allow_pickle=True)
+            self.B_data = np.load(os.path.join(self.root, "thermal_testing_data.npy"), allow_pickle=True)
         else:
-            self.A_data = np.load(os.path.join(self.root, "grayscale_training_data.npy"), allow_pickle=True)
+            self.A_data = np.load(os.path.join(self.root, "rgb_training_data.npy"), allow_pickle=True)
             self.B_data = np.load(os.path.join(self.root, "thermal_training_data.npy"), allow_pickle=True)
 
     def __getitem__(self, index):
@@ -49,4 +49,4 @@ class FlirDataset(BaseDataset):
         return len(self.A_data)
 
     def name(self):
-        return 'FLIR DATASET'
+        return 'VisDrone DATASET'

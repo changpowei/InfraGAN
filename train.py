@@ -7,6 +7,8 @@ from collections import OrderedDict
 import torch
 import os
 from eval import Evalulate
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 opt = TrainOptions().parse()
 data_loader = CreateDataLoader(opt)

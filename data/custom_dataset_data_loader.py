@@ -16,6 +16,9 @@ def CreateDataset(opt):
     elif opt.dataset_mode in ['thermal', 'KAIST', 'BUTR', 'VEDAI']:
         from data.thermal_dataset import ThermalDataset
         dataset = ThermalDataset()
+    elif opt.dataset_mode == 'VisDrone':
+        from data.visdrone_dataset import VisDroneDataset
+        dataset = VisDroneDataset()
     elif opt.dataset_mode == 'FLIR':
         from data.flir_dataset import FlirDataset
         dataset = FlirDataset()

@@ -1,6 +1,7 @@
 from ssim import MSSSIM, SSIM
 from data.thermal_dataset import ThermalDataset
 from data.flir_dataset import FlirDataset
+from data.visdrone_dataset import VisDroneDataset
 import torch.utils.data
 
 class Evalulate:
@@ -15,6 +16,9 @@ class Evalulate:
             dataset.initialize(opt, mode=mode)
         elif opt.dataset_mode == 'FLIR':
             dataset = FlirDataset()
+            dataset.initialize(opt, test=True)
+        elif opt.dataset_mode == 'VisDrone':
+            dataset = VisDroneDataset()
             dataset.initialize(opt, test=True)
         self.dataloader = torch.utils.data.DataLoader(
             dataset,

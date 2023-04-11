@@ -119,6 +119,7 @@ class Visualizer():
         self.data_error = [errors[k].cpu().detach().numpy()+self.data_error[i] for i, k in enumerate(errors.keys())]
 
     def append_error_hist(self, total_iter, val=False):
+        total_iter += 1
         for i, leg in enumerate(self.plot_data['legend']):
             if not val:
                 self.plot_data['train'][leg].append(self.data_error[i]/total_iter)
