@@ -44,17 +44,19 @@ dataloader = torch.utils.data.DataLoader(
     shuffle=False,
     num_workers=int(opt.nThreads))
 
+opt.which_epoch = 'latest'
 model = create_model(opt)
-#opt.no_html = True
-#opt.display_id = 0
-visualizer = Visualizer(opt)
-# create website
-web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (opt.phase, opt.which_epoch))
-webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, opt.which_epoch))
-# test
-for i, data in enumerate(dataset):
-    if i >= opt.how_many:
-        break
+
+for i in range(dataset.__len__()):
+    #opt.no_html = True
+    #opt.display_id = 0
+    # visualizer = Visualizer(opt)
+    # create website
+    save_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (opt.phase, opt.which_epoch))
+    if not os.path.isdir(save_dir):
+        os.makedirs(save_dir)
+    # test
+    data = dataset[i]
     data['A'] = data['A'][None, :]
     data['B'] = data['B'][None, :]
     model.set_input(data)
@@ -65,11 +67,7 @@ for i, data in enumerate(dataset):
     else:
         img_path = model.get_image_paths()
     print('%04d: process image... %s' % (i, img_path))
-    # visualizer.save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio)
-
     for label, im in visuals.items():
         image_name = '%s_%s.png' % (i, label)
-        save_path = os.path.join(web_dir + '/images/', image_name)
+        save_path = os.path.join(save_dir + '/', image_name)
         util.save_image(im, save_path)
-
-# webpage.save()

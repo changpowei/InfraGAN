@@ -6,6 +6,7 @@ from torch.autograd import Variable
 from torch.optim import lr_scheduler
 from models.multiresunet import MultiResUnetGenerator
 from models.unetgan.unet_discriminator import Unet_DiscriminatorGenerator
+from InfraGAN.transformer_models import TransformerGenerator as TransformerG
 ###############################################################################
 # Functions
 ###############################################################################
@@ -121,6 +122,12 @@ def define_G(input_nc, output_nc, ngf, which_model_netG, norm='batch', use_dropo
         netG = UnetGenerator(input_nc, output_nc, 9, ngf, norm_layer=norm_layer, use_dropout=use_dropout, gpu_ids=gpu_ids)
     elif which_model_netG == 'MultiResnet':
         netG = MultiResUnetGenerator(input_nc, output_nc, ngf=ngf//2, use_dropout=use_dropout, gpu_ids=gpu_ids)
+    elif which_model_netG == 'Transformer':
+        decoder = TransformerG.decoder
+        embedding = TransformerG.PatchEmbed()
+        Trans = TransformerG.Transformer()
+        netG = TransformerG.TransformerGenerator(decoder, embedding, Trans)
+        netG = nn.DataParallel(netG, device_ids=gpu_ids)
     else:
         raise NotImplementedError('Generator model name [%s] is not recognized' % which_model_netG)
     if len(gpu_ids) > 0:

@@ -30,8 +30,13 @@ class VisDroneDataset(BaseDataset):
         w_total = A.size(2)
         w = int(w_total)
         h = A.size(1)
-        w_offset = random.randint(0, max(0, w - self.opt.fineSize - 1))
-        h_offset = random.randint(0, max(0, h - self.opt.fineSize - 1))
+        if self.opt.resize_or_crop == "center_crop":
+            w_offset = int((w - self.opt.fineSize) / 2 - 1)
+            h_offset = 0
+
+        else:
+            w_offset = random.randint(0, max(0, w - self.opt.fineSize - 1))
+            h_offset = random.randint(0, max(0, h - self.opt.fineSize - 1))
 
         A = A[:, h_offset:h_offset + self.opt.fineSize,
             w_offset:w_offset + self.opt.fineSize]
