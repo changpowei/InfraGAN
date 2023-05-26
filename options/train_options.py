@@ -17,7 +17,7 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--niter', type=int, default=100, help='# of iter at starting learning rate')
         self.parser.add_argument('--niter_decay', type=int, default=100, help='# of iter to linearly decay learning rate to zero')
         self.parser.add_argument('--beta1', type=float, default=0.5, help='momentum term of adam')
-        self.parser.add_argument('--lr', type=float, default=0.0002, help='initial learning rate for adam')
+        self.parser.add_argument('--lr', type=float, default=0.0005, help='initial learning rate for adam')
         self.parser.add_argument('--no_lsgan', action='store_true', help='do *not* use least square GAN, if false, use vanilla GAN')
         self.parser.add_argument('--lambda_A', type=float, default=100.0, help='weight for cycle loss (A -> B -> A). original : 10')
         self.parser.add_argument('--lambda_B', type=float, default=10.0, help='weight for cycle loss (B -> A -> B)')
